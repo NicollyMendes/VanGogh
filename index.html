@@ -1,0 +1,146 @@
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noite Estrelada - Reservas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <style>
+        body {
+        margin: 0;
+        padding: 0;
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        font-family: 'Playfair Display', serif;
+        color: #f0f0f0;
+        text-align: center;
+        }
+        .overlay {
+        background: rgba(0, 0, 0, 0.7);
+        min-height: 100vh;
+        padding: 40px 20px;
+        }
+        h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        color: #ffeb3b;
+        text-shadow: 2px 2px #333;
+        }
+        p {
+        font-size: 1.2em;
+        margin-bottom: 30px;
+        }
+        form {
+        max-width: 500px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        }
+        input, select, button {
+        width: 90%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+        font-size: 1em;
+        }
+        input, select {
+        background: #f0f0f0;
+        color: #333;
+        }
+        button {
+        background: #fdd835;
+        color: #000;
+        cursor: pointer;
+        transition: background 0.3s;
+        }
+        button:hover {
+        background: #ffeb3b;
+        }
+        .thank-you {
+        font-size: 1.5em;
+        color: #cddc39;
+        margin-top: 30px;
+        }
+    </style>
+    </head>
+    <body>
+    <div class="overlay">
+        <h1>🌌 Noite Estrelada com Van Gogh</h1>
+        <p>Olá Larissa, escolha um dia e um horário para vivermos a experiência do Van Gogh (tô criando expectativa hein)</p>
+
+        <form action="https://formspree.io/f/mgvyzvqe" method="POST" onsubmit="return mostrarAgradecimento(event)">
+        
+        <!-- Campo Nome escondido -->
+        <input type="hidden" name="nome" value="Larissa Stefan">
+
+        <select id="dia" name="dia" required onchange="atualizarHorarios()">
+            <option value="">Selecione o dia</option>
+            <option value="Sexta-feira">Sexta-feira</option>
+            <option value="Sábado">Sábado</option>
+            <option value="Domingo">Domingo</option>
+        </select>
+
+        <select id="horario" name="horario" required>
+            <option value="">Selecione o horário</option>
+        </select>
+
+        <button type="submit">Reservar Sessão</button>
+        </form>
+
+        <div id="mensagem-final" class="thank-you" style="display:none;">
+        🌟 Agora não tem mais volta!<br>
+        Combinamos certinho (se você quiser), o horário pra eu te buscar e te deixar em casa.<br>
+        Beijos Nick 💋
+        </div>
+    </div>
+
+    <script>
+        function atualizarHorarios() {
+        const diaSelecionado = document.getElementById('dia').value;
+        const horarioSelect = document.getElementById('horario');
+        horarioSelect.innerHTML = '<option value="">Selecione o horário</option>';
+
+        let horarios = [];
+
+        if (diaSelecionado === "Sexta-feira") {
+            horarios = ["18:30", "19:00", "20:30"];
+        } else if (diaSelecionado === "Sábado") {
+            horarios = ["11:30", "12:00", "12:30", "13:00", "13:30", "15:00", "16:30", "17:00", "17:30", "19:30", "20:00"];
+        } else if (diaSelecionado === "Domingo") {
+            horarios = ["11:00", "13:00", "13:30", "14:00", "14:30", "15:30", "16:00", "17:30", "19:30"];
+        }
+
+        horarios.forEach(function(horario) {
+            const option = document.createElement('option');
+            option.value = horario;
+            option.text = horario;
+            horarioSelect.add(option);
+        });
+        }
+
+        function mostrarAgradecimento(event) {
+        event.preventDefault();
+        const form = event.target;
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+            form.style.display = 'none';
+            document.getElementById('mensagem-final').style.display = 'block';
+            } else {
+            alert('Erro no envio. Tente novamente.');
+            }
+        }).catch(error => {
+            alert('Erro de rede. Tente mais tarde.');
+        });
+        return false;
+        }
+    </script>
+    </body>
+    </html>
