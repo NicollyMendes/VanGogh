@@ -70,7 +70,7 @@
     <body>
     <div class="overlay">
         <h1>🌌 Noite Estrelada com Van Gogh</h1>
-        <p>Olá Larissa, escolha um dia e um horário para vivermos a experiência do Van Gogh (tô criando expectativa hein)</p>
+        <p>Olá Larissa, escolha um dia e um horário para vivermos a experiência do Van Gogh</p>
 
         <form action="https://formspree.io/f/mgvyzvqe" method="POST" onsubmit="return mostrarAgradecimento(event)">
         
@@ -79,6 +79,7 @@
 
         <select id="dia" name="dia" required onchange="atualizarHorarios()">
             <option value="">Selecione o dia</option>
+            <option value="Quinta-feira">Quinta-feira</option>
             <option value="Sexta-feira">Sexta-feira</option>
             <option value="Sábado">Sábado</option>
             <option value="Domingo">Domingo</option>
@@ -93,7 +94,7 @@
 
         <div id="mensagem-final" class="thank-you" style="display:none;">
         🌟 Agora não tem mais volta!<br>
-        Combinamos certinho (se você quiser), o horário pra eu te buscar e te deixar em casa.<br>
+        Combinados certinho (se você quiser), o horário pra eu te buscar e te deixar em casa.<br>
         Beijos Nick 💋
         </div>
     </div>
@@ -106,7 +107,9 @@
 
         let horarios = [];
 
-        if (diaSelecionado === "Sexta-feira") {
+        if (diaSelecionado === "Quinta-feira") {
+            horarios = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "20:00"];
+        } else if (diaSelecionado === "Sexta-feira") {
             horarios = ["18:30", "19:00", "20:30"];
         } else if (diaSelecionado === "Sábado") {
             horarios = ["11:30", "12:00", "12:30", "13:00", "13:30", "15:00", "16:30", "17:00", "17:30", "19:30", "20:00"];
